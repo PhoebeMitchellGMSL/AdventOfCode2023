@@ -1,6 +1,5 @@
-﻿module Day2
+﻿module Day2Part1
 
-open System.IO
 open System.Text.RegularExpressions
 
 let maxRed = 12
@@ -11,11 +10,10 @@ let RemoveGame(game : string) =
     Regex.Replace(game, @"Game \d+: ", "")
 
 let MapGames(games : string array) : (int * string) array =
-    let a = games
-            |> Array.map _.Trim() 
-            |> Array.map _.Split(" ")
-            |> Array.map (fun game -> (game[0] |> int, game[1]))
-    a
+    games
+    |> Array.map _.Trim() 
+    |> Array.map _.Split(" ")
+    |> Array.map (fun game -> (game[0] |> int, game[1]))
 
 let IsGameValid game : bool =
     let count, colour = game
@@ -41,12 +39,9 @@ let Filter (game : int * bool) =
     | _, v when not v -> 0
     | _, _ -> failwith "Invalid value"
     
-let Day2(input : string) : int =
+let Day2Part1(input : string) : int =
     input.Split "\n"
     |> Array.map ProcessLine
     |> Array.indexed
     |> Array.map Filter
     |> Array.sum
-    
-let input = File.ReadAllText("input.txt");
-printfn $"{Day2(input)}"
